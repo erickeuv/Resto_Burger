@@ -1,5 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
 import { Routes, Route } from 'react-router-dom';  // Importación corregida
 import Home from './views/Home';
 import Menu from './views/Menu'
@@ -7,7 +5,6 @@ import Login from './views/Login'
 import Signup from './views/Signup'
 import '../src/css/styles.css';
 import '../src/css/tailwind.css';
-
 import Header from './components/header';
 import Footer from './components/Footer';
 
