@@ -1,5 +1,5 @@
+import React from 'react';
 import bannerImage from '../assets/img/Banner_Home.png';
-
 
 const Home = () => {
   return (
@@ -8,4 +8,5 @@ const Home = () => {
     </div>
   );
 }
+
 export default Home;

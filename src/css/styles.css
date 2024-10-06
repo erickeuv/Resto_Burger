@@ -1,26 +1,13 @@
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
 .containerHome {
-  width: 100%;
   display: flex;
   justify-content: center;
-}
-
-img {
-  width: 100%;   /* Asegura que la imagen ocupe todo el ancho del contenedor */
-  height: auto;  /* Mantiene la proporción de la imagen */
-  object-fit: cover; /* O usa 'contain' si prefieres ver la imagen completa sin recortar */
-}
-
-.navbar {
-  margin: 0; /* Elimina márgenes en la parte superior */
-  padding: 0; /* Elimina padding si es necesario */
-}
-
-.container {
-  padding: 0; /* Elimina padding en el contenedor */
-}
-
-.brand-logo {
-  width: 200px;   /* Ajusta según sea necesario */
-  height: auto;  /* Mantiene la proporción */
-
+  align-items: center;
+  height: 100vh; /* Asegúrate de que el contenedor ocupe toda la altura de la ventana */
 }
