@@ -1,5 +1,7 @@
 import React from 'react';
 
+// Puedes importar los íconos de Font Awesome, o usar SVGs directamente
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 
 function Footer() {
   return (
@@ -11,37 +13,45 @@ function Footer() {
           className="w-10" 
         />
 
-        <ul className="flex flex-wrap items-center justify-center gap-y-2 gap-x-8"> {/* Lista de enlaces */}
+        <ul className="flex flex-wrap items-center justify-center gap-y-2 gap-x-8"> {/* Lista de redes sociales */}
           <li>
             <a
-              href="#"
-              className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
+              href="https://facebook.com" // Cambia a la URL de tu red social
+              className="transition-colors hover:text-blue-500 focus:text-blue-500"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              About Us
+              <FaFacebookF className="w-6 h-6" /> {/* Icono de Facebook */}
             </a>
           </li>
           <li>
             <a
-              href="#"
-              className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
+              href="https://twitter.com" // Cambia a la URL de tu red social
+              className="transition-colors hover:text-blue-500 focus:text-blue-500"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              License
+              <FaTwitter className="w-6 h-6" /> {/* Icono de Twitter */}
             </a>
           </li>
           <li>
             <a
-              href="#"
-              className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
+              href="https://instagram.com" // Cambia a la URL de tu red social
+              className="transition-colors hover:text-blue-500 focus:text-blue-500"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Contribute
+              <FaInstagram className="w-6 h-6" /> {/* Icono de Instagram */}
             </a>
           </li>
           <li>
             <a
-              href="#"
-              className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500"
+              href="https://linkedin.com" // Cambia a la URL de tu red social
+              className="transition-colors hover:text-blue-500 focus:text-blue-500"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Contact Us
+              <FaLinkedinIn className="w-6 h-6" /> {/* Icono de LinkedIn */}
             </a>
           </li>
         </ul>
@@ -54,4 +64,4 @@ function Footer() {
   );
 }
 
-export default Footer; 
+export default Footer;
