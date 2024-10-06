@@ -1,6 +1,4 @@
 import React from 'react';
-
-// Puedes importar los íconos de Font Awesome, o usar SVGs directamente
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 
 function Footer() {
@@ -17,7 +15,7 @@ function Footer() {
           <li>
             <a
               href="https://facebook.com" // Cambia a la URL de tu red social
-              className="transition-colors hover:text-blue-500 focus:text-blue-500"
+              className="transition-colors hover:text-gray-300 focus:text-gray-300" // Estilo del enlace
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -27,7 +25,7 @@ function Footer() {
           <li>
             <a
               href="https://twitter.com" // Cambia a la URL de tu red social
-              className="transition-colors hover:text-blue-500 focus:text-blue-500"
+              className="transition-colors hover:text-gray-300 focus:text-gray-300" // Estilo del enlace
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -37,7 +35,7 @@ function Footer() {
           <li>
             <a
               href="https://instagram.com" // Cambia a la URL de tu red social
-              className="transition-colors hover:text-blue-500 focus:text-blue-500"
+              className="transition-colors hover:text-gray-300 focus:text-gray-300" // Estilo del enlace
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -47,7 +45,7 @@ function Footer() {
           <li>
             <a
               href="https://linkedin.com" // Cambia a la URL de tu red social
-              className="transition-colors hover:text-blue-500 focus:text-blue-500"
+              className="transition-colors hover:text-gray-300 focus:text-gray-300" // Estilo del enlace
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -56,7 +54,7 @@ function Footer() {
           </li>
         </ul>
       </div>
-      <hr className="my-8 border-blue-gray-500" /> {/* Línea de separación */}
+      <hr className="my-8 border-gray-700" /> {/* Línea de separación */}
       <p className="text-center font-normal">
         &copy; 2024 Sushi & Burger Home
       </p>

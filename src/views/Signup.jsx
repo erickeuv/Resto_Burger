@@ -35,7 +35,7 @@ function Signup() {
                   name="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="bg-white border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+                  className="bg-white border border-gray-300 rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-2.5" // Cambiado para incluir clases de color
                   placeholder="Tu nombre"
                   required
                 />
@@ -48,7 +48,7 @@ function Signup() {
                   name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="bg-white border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+                  className="bg-white border border-gray-300 rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-2.5" // Cambiado para incluir clases de color
                   placeholder="name@company.com"
                   required
                 />
@@ -61,20 +61,20 @@ function Signup() {
                   name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="bg-white border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+                  className="bg-white border border-gray-300 rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-2.5" // Cambiado para incluir clases de color
                   placeholder="••••••••"
                   required
                 />
               </div>
               <button
                 type="submit"
-                className="w-full text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="w-full text-white bg-slate-800 hover:bg-slate-700 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" // Cambiado para incluir clases de color
               >
                 Registrar
               </button>
               <p className="text-sm font-light text-gray-500 text-center">
                 ¿Tienes una cuenta? 
-                <Link to="/login" className="font-medium text-green-600 hover:underline"> Inicia sesión</Link>
+                <Link to="/login" className="font-medium text-slate-800 hover:underline"> Inicia sesión</Link> {/* Cambiado para incluir clases de color */}
               </p>
             </form>
           </div>

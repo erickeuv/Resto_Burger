@@ -22,12 +22,10 @@ const Cart = () => {
                                     />
                                     <div>
                                         <span className="block font-semibold">{item.title}</span>
-                                        {/* Monto estilizado */}
                                         <span className="text-sm text-gray-500 font-semibold">${item.price.toFixed(2)}</span>
                                     </div>
                                 </div>
                                 <div className="flex items-center">
-                                    {/* Cambiamos la lógica aquí */}
                                     {item.quantity === 1 ? (
                                         <>
                                             <button 
@@ -36,13 +34,12 @@ const Cart = () => {
                                             >
                                                 🗑️
                                             </button>
-                                            {/* Cantidad siempre visible */}
                                             <span className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
                                                 {item.quantity}
                                             </span>
                                             <button 
                                                 onClick={() => incrementItem(item)} 
-                                                className="text-green-500 hover:text-green-700"
+                                                className="bg-slate-800 hover:bg-slate-700 text-white rounded-full h-8 w-8 flex items-center justify-center transition-all"
                                             >
                                                 +
                                             </button>
@@ -55,13 +52,12 @@ const Cart = () => {
                                             >
                                                 -
                                             </button>
-                                            {/* Cantidad estilizada siempre visible */}
                                             <span className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
                                                 {item.quantity}
                                             </span>
                                             <button 
                                                 onClick={() => incrementItem(item)} 
-                                                className="text-green-500 hover:text-green-700"
+                                                className="bg-slate-800 hover:bg-slate-700 text-white rounded-full h-8 w-8 flex items-center justify-center transition-all"
                                             >
                                                 +
                                             </button>
@@ -74,7 +70,7 @@ const Cart = () => {
                     <div className="mt-4">
                         <h3 className="text-lg font-semibold">Total: ${getTotal().toFixed(2)}</h3>
                         <button 
-                            className="mt-4 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 rounded"
+                            className="mt-4 w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-2 rounded"
                             onClick={() => alert("Proceso de pago iniciado")}
                         >
                             Pagar
