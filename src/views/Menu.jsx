@@ -1,33 +1,27 @@
-
 import React from 'react';
-import ProductCard from '../components/ProductCard';
+import ProductList from '../components/ProductList';
+import Cart from '../components/Cart';
+import { CartProvider } from '../context/CartContext';
 
-
-function ProductList() {
+function Menu() {
   return (
-    <div className="d-flex flex-wrap justify-content-around"> {/* Flexbox para organizar las tarjetas */}
-    
-      <ProductCard 
-        title="Hamburguesa" 
-        imageUrl="https://via.placeholder.com/100x180" 
-        description="Deliciosa hamburguesa de carne." 
-        price= "$8500"
-      />
-      <ProductCard 
-        title="Sushi" 
-        imageUrl="https://via.placeholder.com/100x180" 
-        description="Sushi con ingredientes frescos." 
-        price= "$9500"
-      />
-      <ProductCard 
-        title="Gohan" 
-        imageUrl="https://via.placeholder.com/100x180" 
-        description="Gohan fresco y saludable." 
-        price= "$7500"
-      />
-     
-    </div>
+    <CartProvider>
+      <div className="container">
+        <div className="row">
+          {/* Columna de productos */}
+          <div className="col-md-8">
+            <h1 className="text-center my-4"> Menú</h1>
+            <ProductList />
+          </div>
+          
+          {/* Columna del carrito */}
+          <div className="col-md-4">
+            <Cart />
+          </div>
+        </div>
+      </div>
+    </CartProvider>
   );
 }
 
-export default ProductList;
+export default Menu;

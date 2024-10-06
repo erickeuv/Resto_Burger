@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';  // Importación corregida
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './views/Home';
 import Menu from './views/Menu'
 import Login from './views/Login'
