@@ -1,6 +1,7 @@
 {
-  "name": "restobu",
+  "name": "backend",
   "version": "1.0.0",
+  "description": "Proyecto final para desafio latam en donde creamos un repo de sushi y hamburguesas, RESTOBU",
   "main": "index.js",
   "type": "module",
   "eslintConfig": {
@@ -35,7 +36,6 @@
   "devDependencies": {
     "nodemon": "^3.1.7",
     "standard": "^17.1.2",
-    "vitest": "^2.1.2"
-  },
-  "description": ""
+    "vitest": "^2.1.3"
+  }
 }

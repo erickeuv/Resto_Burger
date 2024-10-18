@@ -1,17 +1,29 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Importa Link desde react-router-dom
+import axios from 'axios';
 import LoginImage from '../assets/img/Burger_Login.png';
 
 function Login() {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [contraseña, setContraseña] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Iniciando sesión:', { email, password });
-    // Aquí puedes manejar el inicio de sesión, como enviar datos a un backend
-    setEmail('');
-    setPassword('');
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const response = await
+    fetch('http://localhost:3000/login', {
+      method: 'POST',
+      header:{
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, contraseña }),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      alert('Login successful');
+      localStorage.setItem('token', data.message.token);
+    } else {
+      alert('Login failed')
+    }
   };
 
   return (
@@ -42,8 +54,8 @@ function Login() {
                   type="password"
                   id="password"
                   name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={contraseña}
+                  onChange={(e) => setContraseña(e.target.value)}
                   className="bg-white border border-gray-300 rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-2.5" // Cambiado para incluir clases de color
                   placeholder="••••••••"
                   required

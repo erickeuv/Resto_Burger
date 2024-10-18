@@ -1,4 +1,4 @@
-INSERT INTO usuarios () VALUES 
+INSERT INTO users () values
 ();
 
-SELECT * FROM usuarios
+SELECT * FROM users;

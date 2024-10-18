@@ -1,17 +1,37 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Importa Link de react-router-dom
+import axios from 'axios';
 
 function Signup() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [contraseña, setContraseña] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Registrando:', { username, email, password });
-    setUsername('');
-    setEmail('');
-    setPassword('');
+    try {
+      const response = await
+      axios.post('http://localhost:3000/users/register', {
+        nombre: username,
+        email: email,
+        contraseña: contraseña,
+      });
+    if (response.status ===201){
+      setSuccess('Usuario registrado');
+      setError('');
+      setUsername(''),
+      setEmail(''),
+      setContraseña('');
+    } else {
+      setError('Error al ingresar datos');
+      setSuccess('');
+    }
+ } catch(err){
+      setError('Error al registrar');
+      setSuccess('');
+    }
   };
 
   return (
@@ -26,6 +46,8 @@ function Signup() {
             <h1 className="text-2xl font-bold text-center text-gray-800"> {/* Título centrado */}
               Regístrate en tu cuenta
             </h1>
+            {error && <p className="text-red-500 text-center">{error}</p>}
+            {success && <p className="text-green-500 text-center">{success}</p>}
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-800">Nombre:</label>
@@ -59,8 +81,8 @@ function Signup() {
                   type="password"
                   id="password"
                   name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={contraseña}
+                  onChange={(e) => setContraseña(e.target.value)}
                   className="bg-white border border-gray-300 rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-2.5" // Cambiado para incluir clases de color
                   placeholder="••••••••"
                   required
