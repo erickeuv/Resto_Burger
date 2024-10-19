@@ -17,13 +17,8 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Obtener __dirname en ES6
-let __dirname;
-if (process.env.NODE_ENV !== 'test') {
-  const __filename = fileURLToPath(import.meta.url);
-  __dirname = path.dirname(__filename);
-} else {
-  __dirname = path.resolve();
-}
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Middlewares
 app.use(express.json());
@@ -37,10 +32,15 @@ app.use(
   })
 );
 
-// Servir archivos estáticos desde la carpeta 'public'
-app.use('/public', express.static(path.join(__dirname, 'public')));
+// Servir archivos estáticos desde la carpeta 'dist' generada por Vite
+app.use(express.static(path.join(__dirname, 'dist')));
 
-// Rutas
+// Cualquier ruta no manejada por las API debe devolver el frontend
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+});
+
+// Rutas API
 app.use('/api/users', usersRouter);
 app.use('/api/carrito', carritoRouter);
 app.use('/api/compras', comprasRouter);
