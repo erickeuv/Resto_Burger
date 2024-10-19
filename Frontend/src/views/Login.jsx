@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Importa Link desde react-router-dom
-import axios from 'axios';
 import LoginImage from '../assets/img/Burger_Login.png';
 
 function Login() {

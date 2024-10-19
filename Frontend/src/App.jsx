@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import React, { useState } from 'react';  
 import 'bootstrap/dist/css/bootstrap.min.css'; // Estilos de Bootstrap
 import '../src/css/tailwind.css'; // Estilos de Tailwind
@@ -20,14 +20,12 @@ function App() {
     <div className="flex flex-col min-h-screen"> 
       <Header/> 
       <div className="flex-grow"> 
-      <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="Menu" element={<Menu />} />
-          <Route path="Login" element={<Login onLoginSucces={handleLoginSuccess} />} />
-          <Route path="Signup" element={<Signup />} />
+          <Route path="/Menu" element={<Menu />} />
+          <Route path="/Login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
+          <Route path="/Signup" element={<Signup />} />
         </Routes>
-      </Router>
       </div>
       <Footer/>
     </div>
