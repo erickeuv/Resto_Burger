@@ -1,5 +1,5 @@
 -- Crear una nueva base de datos llamada resto_burger_jwt
--- CREATE DATABASE resto_burger_jwt;
+CREATE DATABASE resto_burger_jwt;
 
 -- Tabla: users
 DROP TABLE IF EXISTS users CASCADE;

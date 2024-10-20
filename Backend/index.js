@@ -2,10 +2,11 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import pool from './config/database.js'; // Archivo de configuración de la base de datos
-import usersRouter from './Routes/users.js';
-import carritoRouter from './Routes/carrito.js';
-import comprasRouter from './Routes/compras.js';
+import pool from './config/database.js';
+import usersRouter from './routes/users.js';
+import carritoRouter from './routes/carrito.js';
+import comprasRouter from './routes/compras.js';
+import productRouter from './routes/productRoutes.js'; // Importar la ruta de productos
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -32,39 +33,31 @@ app.use(
   })
 );
 
-// Servir archivos estáticos desde la carpeta 'dist' generada por Vite
-app.use(express.static(path.join(__dirname, 'dist')));
+// Servir archivos estáticos desde la carpeta 'public'
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
-// Cualquier ruta no manejada por las API debe devolver el frontend
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
-});
-
-// Rutas API
+// Rutas
 app.use('/api/users', usersRouter);
 app.use('/api/carrito', carritoRouter);
 app.use('/api/compras', comprasRouter);
+app.use('/api/products', productRouter); // Añadir la ruta de productos
 
-// Verificar la conexión a la base de datos de forma asíncrona
-async function startServer() {
-  try {
-    await pool.connect();
-    console.log('Conexión exitosa a la base de datos');
-
-    // Iniciar el servidor solo si no se está ejecutando en modo de prueba
-    if (process.env.NODE_ENV !== 'test') {
-      app.listen(port, () => {
-        console.log(`Servidor corriendo en el puerto ${port}`);
-      });
-    }
-  } catch (err) {
+// Verificar la conexión a la base de datos
+pool.connect((err) => {
+  if (err) {
     console.error('Error al conectar a la base de datos:', err);
     process.exit(1);
+  } else {
+    console.log('Conexión exitosa a la base de datos');
   }
-}
+});
 
-// Iniciar el servidor
-startServer();
+// Iniciar el servidor solo si no se está ejecutando en modo de prueba
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`Servidor corriendo en el puerto ${port}`);
+  });
+}
 
 // Exportar la aplicación para usarla en los tests
 export default app;

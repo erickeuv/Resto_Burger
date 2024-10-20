@@ -11,7 +11,7 @@ function ProductList() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await axios.get('http://localhost:5000/api/products'); // Asegúrate de que la URL sea correcta
+        const response = await axios.get('http://localhost:5001/api/products'); // Asegúrate de que la URL sea correcta
         setProducts(response.data); // Guardar los productos en el estado
       } catch (error) {
         console.error('Error al obtener los productos:', error);

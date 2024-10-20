@@ -1,50 +1,69 @@
-import React, { createContext, useState } from 'react';
+// frontend/src/context/CartContext.jsx
+
+import React, { createContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-    const [cartItems, setCartItems] = useState([]);
+    const [cartItems, setCartItems] = useState(() => {
+        const savedCart = localStorage.getItem('cartItems');
+        return savedCart ? JSON.parse(savedCart) : [];
+    });
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+
+    useEffect(() => {
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    }, [cartItems]);
+
+    // Función para guardar el carrito en el backend (opcional)
+    const saveCartToBackend = async () => {
+        try {
+            const response = await axios.post(`${backendUrl}/api/carrito`, {
+                items: cartItems.map(item => ({ productId: item.id, cantidad: item.quantity }))
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error al guardar el carrito:', error);
+        }
+    };
 
     const addItem = (item) => {
         setCartItems((prevItems) => {
-            // Verifica si el artículo ya existe en el carrito
-            const existingItem = prevItems.find((cartItem) => cartItem.title === item.title);
-            
+            const existingItem = prevItems.find((cartItem) => cartItem.id === item.id);
             if (existingItem) {
-                // Si existe, incrementa la cantidad
                 return prevItems.map((cartItem) =>
-                    cartItem.title === item.title
+                    cartItem.id === item.id
                         ? { ...cartItem, quantity: (cartItem.quantity || 1) + 1 }
                         : cartItem
                 );
             } else {
-                // Si no existe, añade el nuevo artículo con cantidad 1
                 return [...prevItems, { ...item, quantity: 1 }];
             }
         });
+        saveCartToBackend(); // Guarda el carrito cada vez que se agrega un artículo
     };
 
     const removeItem = (itemToRemove) => {
         setCartItems((prevItems) => {
-            // Elimina el artículo del carrito
-            return prevItems.filter((item) => item.title !== itemToRemove.title);
+            const newItems = prevItems.filter((item) => item.id !== itemToRemove.id);
+            saveCartToBackend(); // Guarda el carrito cada vez que se elimina un artículo
+            return newItems;
         });
     };
 
     const decrementItem = (itemToDecrement) => {
         setCartItems((prevItems) => {
-            const existingItem = prevItems.find((item) => item.title === itemToDecrement.title);
+            const existingItem = prevItems.find((item) => item.id === itemToDecrement.id);
             
             if (existingItem && existingItem.quantity > 1) {
-                // Si el artículo tiene más de 1, disminuye la cantidad
                 return prevItems.map((item) =>
-                    item.title === itemToDecrement.title
+                    item.id === itemToDecrement.id
                         ? { ...item, quantity: item.quantity - 1 }
                         : item
                 );
             } else {
-                // Si es 1 o no existe, elimina el artículo
-                return prevItems.filter((item) => item.title !== itemToDecrement.title);
+                return prevItems.filter((item) => item.id !== itemToDecrement.id);
             }
         });
     };
@@ -52,7 +71,7 @@ export const CartProvider = ({ children }) => {
     const incrementItem = (itemToIncrement) => {
         setCartItems((prevItems) => {
             return prevItems.map((item) =>
-                item.title === itemToIncrement.title
+                item.id === itemToIncrement.id
                     ? { ...item, quantity: item.quantity + 1 }
                     : item
             );

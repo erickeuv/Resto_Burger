@@ -5,11 +5,12 @@ import pool from '../config/database.js';
 
 const router = express.Router();
 
-// Obtener el carrito de un usuario
-router.get('/:userId', async (req, res) => {
-  const { userId } = req.params;
+
+router.get('/', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM detalle_carrito WHERE user_id = $1', [userId]);
+    // Aquí podrías usar un método diferente para identificar al carrito,
+    // como usar cookies o una sesión
+    const result = await pool.query('SELECT * FROM detalle_carrito');
     res.json(result.rows);
   } catch (err) {
     console.error('Error al obtener el carrito:', err);
@@ -19,15 +20,15 @@ router.get('/:userId', async (req, res) => {
 
 // Añadir producto al carrito
 router.post('/', async (req, res) => {
-  const { userId, productId, cantidad } = req.body;
+  const { productId, cantidad } = req.body; // Quitamos userId
   try {
-    // Si el producto ya está en el carrito, actualiza la cantidad
+    // Suponiendo que el carrito es anónimo o temporal
     await pool.query(
-      `INSERT INTO detalle_carrito (user_id, product_id, cantidad) 
-      VALUES ($1, $2, $3)
-      ON CONFLICT (user_id, product_id) 
-      DO UPDATE SET cantidad = detalle_carrito.cantidad + $3`,
-      [userId, productId, cantidad]
+      `INSERT INTO detalle_carrito (product_id, cantidad) 
+      VALUES ($1, $2)
+      ON CONFLICT (product_id) 
+      DO UPDATE SET cantidad = detalle_carrito.cantidad + EXCLUDED.cantidad`,
+      [productId, cantidad]
     );
     res.status(201).json({ message: 'Producto añadido al carrito' });
   } catch (err) {
