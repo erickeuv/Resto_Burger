@@ -9,6 +9,7 @@ import comprasRouter from './routes/compras.js';
 import productRouter from './routes/productRoutes.js'; // Importar la ruta de productos
 import path from 'path';
 import { fileURLToPath } from 'url';
+import helmet from 'helmet';
 
 // Determinar qué archivo de variables de entorno cargar
 const envFile = process.env.NODE_ENV === 'test' ? '.env.test' : '.env';
@@ -24,11 +25,12 @@ const __dirname = path.dirname(__filename);
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
+app.use(helmet()); // Configurar seguridad HTTP headers
 
 // Configurar CORS
 app.use(
   cors({
-    origin: 'http://localhost:5173', // URL del frontend en desarrollo
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173', // Asegúrate de usar variables de entorno para la URL de producción
     credentials: true,
   })
 );
@@ -43,13 +45,19 @@ app.use('/api/compras', comprasRouter);
 app.use('/api/products', productRouter); // Añadir la ruta de productos
 
 // Verificar la conexión a la base de datos
-pool.connect((err) => {
+pool.query('SELECT NOW()', (err, res) => {
   if (err) {
     console.error('Error al conectar a la base de datos:', err);
     process.exit(1);
   } else {
-    console.log('Conexión exitosa a la base de datos');
+    console.log('Conexión exitosa a la base de datos', res.rows);
   }
+});
+
+// Middleware de manejo de errores global
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Ha ocurrido un error en el servidor' });
 });
 
 // Iniciar el servidor solo si no se está ejecutando en modo de prueba

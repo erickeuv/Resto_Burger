@@ -42,9 +42,8 @@ function ProductList() {
           <h2 className="text-2xl font-bold text-center">{category}</h2>
           <div className="flex flex-wrap justify-between"> {/* Aseguramos que haya 3 columnas */}
             {categorizedProducts[category].map((product) => (
-              <div className="w-full md:w-1/2 lg:w-1/3 p-2"> {/* Cada tarjeta ocupa 1/3 del ancho en pantallas grandes */}
+              <div key={product.id} className="w-full md:w-1/2 lg:w-1/3 p-2"> {/* Cada tarjeta ocupa 1/3 del ancho en pantallas grandes */}
                 <ProductCard
-                  key={product.id}
                   title={product.name}
                   imageUrl={product.image_url}
                   description={product.description}

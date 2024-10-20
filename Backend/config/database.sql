@@ -26,17 +26,16 @@ CREATE TABLE Products (
 ALTER TABLE Products
 ADD CONSTRAINT unique_product_name UNIQUE (name);
 
--- Tabla: purchases
+-- Tabla: purchases (sin el email, porque se puede obtener desde la relación con users)
 DROP TABLE IF EXISTS purchases CASCADE;
 CREATE TABLE purchases (
     id SERIAL PRIMARY KEY,
-    user_id BIGINT REFERENCES users(id),
-    email TEXT NOT NULL,
+    user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
     purchase_date TIMESTAMP NOT NULL DEFAULT NOW(),
     total_amount NUMERIC(10, 2) NOT NULL
 );
 
--- Tabla: purchase_items
+-- Tabla: purchase_items (relaciona compras y productos)
 DROP TABLE IF EXISTS purchase_items CASCADE;
 CREATE TABLE purchase_items (
     id SERIAL PRIMARY KEY,
@@ -51,12 +50,13 @@ CREATE TABLE purchase_items (
     subtotal NUMERIC(10, 2) NOT NULL
 );
 
--- Tabla: carrito
+-- Tabla: carrito (añadimos una clave única combinada para evitar productos duplicados)
 DROP TABLE IF EXISTS carrito CASCADE;
 CREATE TABLE carrito (
     id SERIAL PRIMARY KEY,
-    user_id BIGINT REFERENCES users(id),
+    user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
     product_id BIGINT REFERENCES Products(id),
     quantity INTEGER NOT NULL DEFAULT 1,
-    added_at TIMESTAMP NOT NULL DEFAULT NOW()
+    added_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    CONSTRAINT unique_cart_item UNIQUE (user_id, product_id) -- Restringe productos duplicados en el carrito por usuario
 );

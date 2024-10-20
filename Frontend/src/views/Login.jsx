@@ -1,13 +1,13 @@
-// frontend/src/views/Login.jsx
-
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import LoginImage from '../assets/img/Burger_Login.png';
+import { AuthContext } from '../context/AuthContext'; // Importa el AuthContext
 
-function Login({ onLoginSuccess }) {
+function Login() {
   const [email, setEmail] = useState('');
   const [contraseña, setContraseña] = useState('');
+  const { login } = useContext(AuthContext); // Usa el contexto para manejar el login
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -15,19 +15,20 @@ function Login({ onLoginSuccess }) {
     try {
       const response = await axios.post('http://localhost:5001/api/users/login', {
         email,
-        password: contraseña,
+        password: contraseña, 
       });
       if (response.status === 200) {
-        localStorage.setItem('token', response.data.token);
-        onLoginSuccess(); // Llama a la función para indicar que el login fue exitoso
-        navigate('/perfil'); // Redirige a perfil
+        const token = response.data.token;
+        login(token); 
+        navigate('/profile'); // Cambiado a /profile
       } else {
-        alert('Login failed');
+        alert('Error al iniciar sesión');
       }
     } catch (error) {
-      alert('Login failed: ' + (error.response.data.error || 'Error de conexión'));
+      alert('Error al iniciar sesión: ' + (error.response?.data?.error || 'Error de conexión'));
     }
   };
+  
 
   return (
     <section className="bg-white">

@@ -1,5 +1,3 @@
-// frontend/src/context/CartContext.jsx
-
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -10,7 +8,7 @@ export const CartProvider = ({ children }) => {
         const savedCart = localStorage.getItem('cartItems');
         return savedCart ? JSON.parse(savedCart) : [];
     });
-    const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5001';
 
     useEffect(() => {
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
@@ -65,6 +63,7 @@ export const CartProvider = ({ children }) => {
                 return prevItems.filter((item) => item.id !== itemToDecrement.id);
             }
         });
+        saveCartToBackend(); // Guarda el carrito después de decrementar un artículo
     };
 
     const incrementItem = (itemToIncrement) => {
@@ -75,14 +74,20 @@ export const CartProvider = ({ children }) => {
                     : item
             );
         });
+        saveCartToBackend(); // Guarda el carrito después de incrementar un artículo
     };
 
     const getTotal = () => {
         return cartItems.reduce((total, item) => total + (item.price * (item.quantity || 1)), 0);
     };
 
+    const clearCart = () => {
+        setCartItems([]);
+        localStorage.removeItem('cartItems'); // Opcional: eliminar el carrito del localStorage
+    };
+
     return (
-        <CartContext.Provider value={{ cartItems, addItem, removeItem, getTotal, decrementItem, incrementItem }}>
+        <CartContext.Provider value={{ cartItems, addItem, removeItem, getTotal, decrementItem, incrementItem, clearCart }}>
             {children}
         </CartContext.Provider>
     );
