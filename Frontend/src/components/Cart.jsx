@@ -1,5 +1,3 @@
-// Cart.jsx
-
 import React, { useContext } from 'react';
 import { CartContext } from '../context/CartContext';
 
@@ -7,7 +5,7 @@ const Cart = () => {
     const { cartItems, getTotal, removeItem, decrementItem, incrementItem } = useContext(CartContext);
 
     return (
-        <div className="bg-white shadow-lg rounded-lg p-4 m-4 w-full max-w-xs">
+        <div className="sticky top-48 bg-white shadow-lg rounded-lg p-4 m-4 w-full max-w-xs"> {/* Ajustamos top */}
             <h2 className="text-xl font-bold mb-4">Carrito</h2>
             {cartItems.length === 0 ? (
                 <p className="text-gray-500">El carrito está vacío</p>

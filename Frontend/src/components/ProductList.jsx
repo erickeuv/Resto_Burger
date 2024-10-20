@@ -1,37 +1,60 @@
 import React, { useContext, useEffect, useState } from 'react';
-import ProductCard from '../components/ProductCard'; // Asegúrate de que la ruta sea correcta
-import { CartContext } from '../context/CartContext'; // Importa el contexto del carrito
-import axios from 'axios'; // Importa Axios para hacer la solicitud HTTP
+import ProductCard from '../components/ProductCard';
+import { CartContext } from '../context/CartContext';
+import axios from 'axios';
 
 function ProductList() {
-  const { addItem } = useContext(CartContext); // Usa el contexto del carrito
-  const [products, setProducts] = useState([]); // Estado para almacenar los productos
+  const { addItem } = useContext(CartContext);
+  const [products, setProducts] = useState([]);
+  const [categorizedProducts, setCategorizedProducts] = useState({});
 
-  // useEffect para cargar los productos desde el backend
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const response = await axios.get('http://localhost:5001/api/products'); // Asegúrate de que la URL sea correcta
-        setProducts(response.data); // Guardar los productos en el estado
+        const response = await axios.get('http://localhost:5001/api/products');
+        setProducts(response.data);
+        categorizeProducts(response.data); // Llama a la función para categorizar productos
       } catch (error) {
         console.error('Error al obtener los productos:', error);
       }
     }
 
     fetchProducts();
-  }, []); // El array vacío asegura que el efecto se ejecute una sola vez al montar el componente
+  }, []);
+
+  // Función para categorizar los productos
+  const categorizeProducts = (products) => {
+    const categories = products.reduce((acc, product) => {
+      const category = product.category; // Obtén la categoría del producto
+      if (!acc[category]) {
+        acc[category] = []; // Inicializa el array si la categoría no existe
+      }
+      acc[category].push(product); // Agrega el producto a su categoría
+      return acc;
+    }, {});
+    setCategorizedProducts(categories); // Actualiza el estado con las categorías
+  };
 
   return (
-    <div className="flex flex-wrap justify-around"> {/* Flexbox para organizar las tarjetas */}
-      {products.map((product) => (
-        <ProductCard 
-          key={product.id}
-          title={product.name} 
-          imageUrl={product.image_url} // Asume que tu base de datos tiene un campo 'image_url'
-          description={product.description} 
-          price={`$${product.price}`} // Ajusta el precio a un formato correcto
-          onAdd={() => addItem(product)} // Pasa la función onAdd y el producto
-        />
+    <div className="flex flex-col"> {/* Flexbox para organizar las tarjetas */}
+      {Object.keys(categorizedProducts).map((category) => (
+        <div key={category} id={category} className="my-8"> {/* Añade un ID para el desplazamiento */}
+          <h2 className="text-2xl font-bold text-center">{category}</h2>
+          <div className="flex flex-wrap justify-between"> {/* Aseguramos que haya 3 columnas */}
+            {categorizedProducts[category].map((product) => (
+              <div className="w-full md:w-1/2 lg:w-1/3 p-2"> {/* Cada tarjeta ocupa 1/3 del ancho en pantallas grandes */}
+                <ProductCard
+                  key={product.id}
+                  title={product.name}
+                  imageUrl={product.image_url}
+                  description={product.description}
+                  price={`$${product.price}`}
+                  onAdd={() => addItem(product)}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       ))}
     </div>
   );

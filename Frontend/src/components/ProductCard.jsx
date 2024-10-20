@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 function ProductCard({ title, imageUrl, description, price, onAdd }) {
   return (
-    <div className="flex flex-col bg-white shadow-sm border border-slate-200 rounded-lg my-4 w-1/4 max-w-sm"> {/* Ajustado para ser más pequeño */}
+    <div className="flex flex-col bg-white shadow-sm border border-slate-200 rounded-lg my-4 w-full max-w-xs"> {/* Ajustado para ser más pequeño */}
       <div className="m-2.5 overflow-hidden rounded-md h-32 flex justify-center items-center">
         <img 
           className="w-2/3 h-full object-cover"

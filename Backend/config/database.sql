@@ -22,6 +22,10 @@ CREATE TABLE Products (
     image_url TEXT
 );
 
+-- Agregar restricción de unicidad para evitar duplicados en la tabla Products
+ALTER TABLE Products
+ADD CONSTRAINT unique_product_name UNIQUE (name);
+
 -- Tabla: purchases
 DROP TABLE IF EXISTS purchases CASCADE;
 CREATE TABLE purchases (

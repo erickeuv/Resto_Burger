@@ -10,7 +10,7 @@ function Header() {
           <img
             src="https://tofuu.getjusto.com/orioneat-local/resized2/BAbPLCBTJhJkJJx5F-1400-x.webp"
             alt="Brand Logo"
-            className="h-10" // Ajusta la altura según sea necesario
+            className="h-10"
           />
         </Link>
 
@@ -22,7 +22,7 @@ function Header() {
           <Link to="/Login" className="text-white hover:text-gray-300 transition duration-300">Login</Link>
         </div>
 
-        {/* Botón de menú para dispositivos móviles (opcional) */}
+        {/* Botón de menú para dispositivos móviles */}
         <button
           className="relative h-6 w-6 text-center align-middle text-xs font-medium uppercase text-white transition-all hover:bg-gray-700 focus:bg-gray-700 lg:hidden"
           type="button"

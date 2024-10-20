@@ -1,5 +1,3 @@
-// frontend/src/views/Profile.jsx
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -39,24 +37,26 @@ const Profile = () => {
     fetchProfile();
   }, []);
 
-  if (error) return <div className="text-red-500">{error}</div>;
-  if (!userData) return <div>Cargando...</div>;
+  if (error) return <div className="text-red-500 text-center">{error}</div>;
+  if (!userData) return <div className="text-center text-gray-500">Cargando...</div>;
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold">Perfil de Usuario</h2>
-      <p><strong>Nombre:</strong> {userData.name}</p>
-      <p><strong>Email:</strong> {userData.email}</p>
-      <h3 className="text-xl font-semibold mt-4">Historial de Compras</h3>
+    <div className="container mx-auto p-6 bg-white shadow-md rounded-lg">
+      <h2 className="text-3xl font-bold text-slate-900 mb-4">Perfil de Usuario</h2>
+      <div className="text-lg">
+        <p><strong>Nombre:</strong> {userData.name}</p>
+        <p><strong>Email:</strong> {userData.email}</p>
+      </div>
+
+      <h3 className="text-2xl font-semibold text-slate-800 mt-6">Historial de Compras</h3>
       {purchaseHistory.length > 0 ? (
-        <ul className="list-disc list-inside">
+        <ul className="list-disc list-inside mt-4 space-y-4">
           {purchaseHistory.map((purchase) => (
-            <li key={purchase.id}>
-              <p>Compra ID: {purchase.id} - Fecha: {new Date(purchase.purchase_date).toLocaleDateString()}</p>
-              {/* Agrega más detalles de la compra según tu modelo de datos */}
-              <ul>
+            <li key={purchase.id} className="bg-gray-100 p-4 rounded-lg shadow-sm">
+              <p className="font-semibold">Compra ID: {purchase.id} - Fecha: {new Date(purchase.purchase_date).toLocaleDateString()}</p>
+              <ul className="list-disc list-inside mt-2">
                 {purchase.items.map(item => (
-                  <li key={item.product_id}>
+                  <li key={item.product_id} className="text-sm text-gray-700">
                     {item.product_name} - Cantidad: {item.quantity} - Precio: ${item.price}
                   </li>
                 ))}
@@ -65,7 +65,7 @@ const Profile = () => {
           ))}
         </ul>
       ) : (
-        <p>No hay historial de compras.</p>
+        <p className="text-gray-600 mt-4">No hay historial de compras.</p>
       )}
     </div>
   );
