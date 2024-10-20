@@ -5,7 +5,7 @@ import axios from 'axios';
 function Signup() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [contraseña, setContraseña] = useState('');
+  const [password, setPassword] = useState(''); // Cambié 'contraseña' a 'password'
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -14,24 +14,24 @@ function Signup() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await axios.post('http://localhost:3000/users/register', {
-        nombre: username,
+      const response = await axios.post('http://localhost:5001/api/users/register', { // Asegúrate que esta sea la URL correcta
+        name: username,
         email: email,
-        contraseña: contraseña,
+        password: password, // Cambié 'contraseña' a 'password'
       });
       if (response.status === 201) {
         setSuccess('Usuario registrado');
         setError('');
         setUsername('');
         setEmail('');
-        setContraseña('');
+        setPassword(''); // Cambié 'contraseña' a 'password'
       } else {
         setError('Error al ingresar datos');
         setSuccess('');
       }
     } catch (err) {
       if (err.response && err.response.data) {
-        setError(err.response.data.message || 'Error al registrar');
+        setError(err.response.data.error || 'Error al registrar');
       } else {
         setError('Error de conexión');
       }
@@ -88,8 +88,8 @@ function Signup() {
                   type="password"
                   id="password"
                   name="password"
-                  value={contraseña}
-                  onChange={(e) => setContraseña(e.target.value)}
+                  value={password} // Cambié 'contraseña' a 'password'
+                  onChange={(e) => setPassword(e.target.value)} // Cambié 'contraseña' a 'password'
                   className="bg-white border border-gray-300 rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-2.5"
                   placeholder="••••••••"
                   required

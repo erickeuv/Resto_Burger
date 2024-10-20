@@ -5,12 +5,12 @@ import pool from '../config/database.js';
 
 const router = express.Router();
 
-
+// Obtener el carrito (puedes usar una sesión o cookies para identificar al carrito)
 router.get('/', async (req, res) => {
   try {
-    // Aquí podrías usar un método diferente para identificar al carrito,
+    // Aquí podrías usar un método diferente para identificar el carrito,
     // como usar cookies o una sesión
-    const result = await pool.query('SELECT * FROM detalle_carrito');
+    const result = await pool.query('SELECT * FROM detalle_carrito'); // Si es anónimo
     res.json(result.rows);
   } catch (err) {
     console.error('Error al obtener el carrito:', err);
@@ -22,7 +22,6 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   const { productId, cantidad } = req.body; // Quitamos userId
   try {
-    // Suponiendo que el carrito es anónimo o temporal
     await pool.query(
       `INSERT INTO detalle_carrito (product_id, cantidad) 
       VALUES ($1, $2)

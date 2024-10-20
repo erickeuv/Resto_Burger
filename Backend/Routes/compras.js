@@ -1,5 +1,3 @@
-// backend/routes/compras.js
-
 import express from 'express';
 import pool from '../config/database.js';
 import jwt from 'jsonwebtoken';
@@ -10,12 +8,17 @@ const router = express.Router();
 router.post('/', async (req, res) => {
   const { cart, totalAmount } = req.body;
 
+  // Verifica si hay un carrito y un total
+  if (!cart || !totalAmount) {
+    return res.status(400).json({ error: 'El carrito y el total son obligatorios.' });
+  }
+
   let userId = null;
   let email = 'Desconocido';
 
   try {
     // Obtener el token del encabezado Authorization
-    const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization?.split(' ')[1];
     if (token) {
       // Decodificar el token para obtener el userId y email
       const decoded = jwt.verify(token, process.env.SECRET_KEY);
@@ -44,7 +47,13 @@ router.post('/', async (req, res) => {
         'SELECT image_url FROM products WHERE id = $1',
         [productId]
       );
-      const image_url = productResult.rows[0].image_url;
+
+      // Verifica si el producto existe
+      if (productResult.rows.length === 0) {
+        throw new Error(`Producto con ID ${productId} no encontrado`);
+      }
+
+      const image_url = productResult.rows[0].image_url || 'default_image_url'; // Manejar caso de que no se encuentre la imagen
 
       await pool.query(
         'INSERT INTO purchase_items (purchase_id, product_id, product_name, category, description, image_url, price, quantity, subtotal) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)',
@@ -78,7 +87,7 @@ router.post('/', async (req, res) => {
 router.get('/historial', async (req, res) => {
   try {
     // Obtener el token del encabezado Authorization
-    const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization?.split(' ')[1];
     if (!token) {
       return res.status(401).json({ error: 'No autorizado' });
     }
@@ -92,19 +101,17 @@ router.get('/historial', async (req, res) => {
       [userId]
     );
 
-    const purchases = [];
-
-    for (let purchase of purchasesResult.rows) {
+    const purchases = await Promise.all(purchasesResult.rows.map(async (purchase) => {
       const itemsResult = await pool.query(
         'SELECT * FROM purchase_items WHERE purchase_id = $1',
         [purchase.id]
       );
 
-      purchases.push({
+      return {
         ...purchase,
         items: itemsResult.rows,
-      });
-    }
+      };
+    }));
 
     res.json(purchases);
   } catch (error) {

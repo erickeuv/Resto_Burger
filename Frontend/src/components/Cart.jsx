@@ -1,3 +1,5 @@
+// Cart.jsx
+
 import React, { useContext } from 'react';
 import { CartContext } from '../context/CartContext';
 
@@ -22,7 +24,7 @@ const Cart = () => {
                                     />
                                     <div>
                                         <span className="block font-semibold">{item.title}</span>
-                                        <span className="text-sm text-gray-500 font-semibold">${item.price.toFixed(2)}</span>
+                                        <span className="text-sm text-gray-500 font-semibold">${Number(item.price).toFixed(2)}</span> {/* Convertir a número */}
                                     </div>
                                 </div>
                                 <div className="flex items-center">

@@ -19,10 +19,9 @@ export const CartProvider = ({ children }) => {
     // Función para guardar el carrito en el backend (opcional)
     const saveCartToBackend = async () => {
         try {
-            const response = await axios.post(`${backendUrl}/api/carrito`, {
+            await axios.post(`${backendUrl}/api/carrito`, {
                 items: cartItems.map(item => ({ productId: item.id, cantidad: item.quantity }))
             });
-            return response.data;
         } catch (error) {
             console.error('Error al guardar el carrito:', error);
         }

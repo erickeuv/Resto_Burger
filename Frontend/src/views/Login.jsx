@@ -1,38 +1,40 @@
+// frontend/src/views/Login.jsx
+
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Importa Link desde react-router-dom
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import LoginImage from '../assets/img/Burger_Login.png';
 
-function Login() {
+function Login({ onLoginSuccess }) {
   const [email, setEmail] = useState('');
   const [contraseña, setContraseña] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await
-    fetch('http://localhost:3000/login', {
-      method: 'POST',
-      header:{
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, contraseña }),
-    });
-    if (response.ok) {
-      const data = await response.json();
-      alert('Login successful');
-      localStorage.setItem('token', data.message.token);
-    } else {
-      alert('Login failed')
+    try {
+      const response = await axios.post('http://localhost:5001/api/users/login', {
+        email,
+        password: contraseña,
+      });
+      if (response.status === 200) {
+        localStorage.setItem('token', response.data.token);
+        onLoginSuccess(); // Llama a la función para indicar que el login fue exitoso
+        navigate('/perfil'); // Redirige a perfil
+      } else {
+        alert('Login failed');
+      }
+    } catch (error) {
+      alert('Login failed: ' + (error.response.data.error || 'Error de conexión'));
     }
   };
 
   return (
-    <section className="bg-white"> {/* Fondo blanco para la sección */}
-      <div className="flex flex-col md:flex-row items-center justify-center min-h-screen py-12 px-6 lg:px-8"> {/* Alineación y espaciado */}
-        <div className="w-full max-w-md bg-gray-100 rounded-lg shadow-lg"> {/* Fondo claro para el formulario */}
-          <div className="p-8 space-y-4"> {/* Espaciado uniforme */}
-            <h1 className="text-2xl font-bold text-center text-gray-800"> {/* Título centrado */}
-              Iniciar Sesión
-            </h1>
+    <section className="bg-white">
+      <div className="flex flex-col md:flex-row items-center justify-center min-h-screen py-12 px-6 lg:px-8">
+        <div className="w-full max-w-md bg-gray-100 rounded-lg shadow-lg">
+          <div className="p-8 space-y-4">
+            <h1 className="text-2xl font-bold text-center text-gray-800">Iniciar Sesión</h1>
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-800">Email:</label>
@@ -42,7 +44,7 @@ function Login() {
                   name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="bg-white border border-gray-300 rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-2.5" // Cambiado para incluir clases de color
+                  className="bg-white border border-gray-300 rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-2.5"
                   placeholder="name@company.com"
                   required
                 />
@@ -55,25 +57,25 @@ function Login() {
                   name="password"
                   value={contraseña}
                   onChange={(e) => setContraseña(e.target.value)}
-                  className="bg-white border border-gray-300 rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-2.5" // Cambiado para incluir clases de color
+                  className="bg-white border border-gray-300 rounded-lg focus:ring-slate-800 focus:border-slate-800 block w-full p-2.5"
                   placeholder="••••••••"
                   required
                 />
               </div>
               <button
                 type="submit"
-                className="w-full text-white bg-slate-800 hover:bg-slate-700 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" // Cambiado para incluir clases de color
+                className="w-full text-white bg-slate-800 hover:bg-slate-700 focus:ring-4 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
                 Iniciar Sesión
               </button>
               <p className="text-sm font-light text-gray-500 text-center">
-                ¿No tienes una cuenta? <Link to="/signup" className="font-medium text-slate-800 hover:underline">Regístrate aquí</Link> {/* Cambiado para incluir clases de color */}
+                ¿No tienes una cuenta? <Link to="/signup" className="font-medium text-slate-800 hover:underline">Regístrate aquí</Link>
               </p>
             </form>
           </div>
         </div>
 
-        <div className="hidden lg:block lg:h-[400px] md:h-[300px] md:ml-4"> {/* Espacio para la imagen */}
+        <div className="hidden lg:block lg:h-[400px] md:h-[300px] md:ml-4">
           <img src={LoginImage} className="w-full h-full object-cover rounded-lg" alt="Delicious Burger" />
         </div>
       </div>
