@@ -3,10 +3,10 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import pool from './config/database.js';
-import usersRouter from './routes/users.js';
-import carritoRouter from './routes/carrito.js';
-import comprasRouter from './routes/compras.js';
-import productRouter from './routes/productRoutes.js'; // Importar la ruta de productos
+import usersRouter from './Routes/users.js';
+import carritoRouter from './Routes/carrito.js';
+import comprasRouter from './Routes/compras.js';
+import productRouter from './Routes/productRoutes.js'; // Importar la ruta de productos
 import path from 'path';
 import { fileURLToPath } from 'url';
 import helmet from 'helmet';
